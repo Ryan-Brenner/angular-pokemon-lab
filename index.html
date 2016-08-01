@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="pokemonApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pokedex 0.null.5</title>
+
+    <!-- STYLESHEETS -->
+  
+    <!--bootstrapCDN-->
+  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+  <!--angularCDN-->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.min.js"></script>
+
+  <!--Controller/js-->
+  <script src="scripts/app.js"></script>
+
+  </head>
+  <body ng-controller="PokemonIndexController as pokemonIndexCtrl">
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Pokedex</h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+          <form class="form-horizontal" ng-submit="createPoke()">
+            <fieldset>
+
+              <!-- Form Name -->
+              <legend>Add New Poke</legend>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label">Name</label>
+                <div class="col-md-4">
+                <input id="name" ng-model="newPoke.name" type="text" 
+                placeholder="Name" class="form-control input-md" required="">
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label">Pokedex</label>
+                <div class="col-md-4">
+                <input ng-model="newPoke.pokedex" placeholder="Pokedex Number" type="text" class="form-control input-md">
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label">Evolves From</label>
+                <div class="col-md-4">
+                <input ng-model="newPoke.evolves_from" placeholder="Evolves From" type="text" class="form-control input-md">
+                </div>
+              </div>
+
+              <!-- Textarea -->
+              <div class="form-group">
+                <label class="col-md-4 control-label">Image</label>
+                <div class="col-md-4">
+                  <input class="form-control" placeholder="URL for Poke Image" ng-model="newPoke.image">
+                </div>
+              </div>
+
+
+              <!-- Button -->
+              <div class="form-group">
+                <label class="col-md-4 control-label">Save Album</label>
+                <div class="col-md-4">
+                  <button class="btn btn-primary" ng-click= "pokemonIndexCtrl.createPoke(newPoke)" >Submit</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+
+      <input type="text" class="form-control" ng-model="searchText" placeholder="Search Pokemon">
+      <div ng-repeat="poke in pokemonIndexCtrl.pokemon | orderBy: 'name' | filter: searchText" class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+              <div class='row'>
+                <div class="col-md-3 col-xs-12 thumbnail img-responsive">
+                  <img src={{poke.image}} alt="poke image">
+                </div>
+
+                <div class="col-md-9 col-xs-12">
+                  <ul class="list-group form-inline">
+                    <li class="list-group-item">
+                      <h4 class='inline-header'>Name:</h4>
+                      <span ng-hide="editing">{{poke.name}}</span>
+                      <input ng-show="editing" ng-model="poke.name" type="text" class="form-control input-md">
+                    </li>
+
+                    <li class="list-group-item">
+                      <h4 class='inline-header'>Pokedex Number:</h4>
+                      <span ng-hide="editing">{{poke.pokedex}}</span>
+                      <input ng-show="editing" ng-model="poke.pokedex" type="text" class="form-control input-md">
+                    </li>
+
+                    <li class="list-group-item">
+                    Evolves From:</h4>
+                      <span ng-hide="editing">{{poke.evolves_from}}</span>
+                      <input ng-show="editing" ng-model="poke.evolves_from" type="text" class="form-control input-md">
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+
+              <div class='panel-footer'>
+                <div class='panel-footer'>
+                  <button class='btn btn-danger' ng-click="pokemonIndexCtrl.deletePoke(poke)">Delete Pokemon</button>
+                  <button class='btn btn-info' ng-hide="editing" ng-click="editing = true">Edit Pokemon</button>
+                  <button class='btn btn-success' ng-show="editing" ng-click="pokemonIndexCtrl.editPoke(poke)">Save Changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
